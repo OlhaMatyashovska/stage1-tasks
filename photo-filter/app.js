@@ -82,3 +82,14 @@ function switchPicture() {
    src = src + images_array[currentItem];
    image.src=src;
 }
+// load image implementation
+const inputFileButton = document.getElementById("btnInput");
+inputFileButton.addEventListener("change",uploadImage);
+function uploadImage(e) {
+   const file = inputFileButton.files[0];
+   const reader = new FileReader();
+   reader.onload = () => {
+      image.src = reader.result;
+   }
+   reader.readAsDataURL(file);
+}
