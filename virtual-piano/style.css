@@ -120,6 +120,7 @@ body {
 .piano-key.piano-key-active,
 .piano-key.sharp.piano-key-active {
   transform: scale(0.96);
+  background-color:blueviolet;
 }
 .piano-key.none {
   background-color: transparent;
@@ -127,6 +128,7 @@ body {
   border-radius: 0;
   pointer-events: none;
 }
+
 .piano-key::before,
 .piano-key::after {
   content: attr(data-note);
@@ -157,6 +159,10 @@ body {
 .piano-key.sharp::after {
   bottom: 175px;
   left: 7px;
+}
+.piano-key.piano-key-active::before,
+.piano-key.piano-key-active::after {
+  color:blueviolet;
 }
 .piano-key.letter::before {
   display: none;

@@ -73,3 +73,8 @@ piano.addEventListener('mouseover', function (event) {
     playAudioWithButton(event);
   }
 });
+function removeTransition(e) {
+  if (e.propertyName !== 'transform') return;
+  e.target.classList.remove('piano-key-active');
+}
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
