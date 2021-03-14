@@ -68,8 +68,8 @@ function playAudioWithKeyboard(event) {
   keyPressed.classList.add("piano-key-active");
   playAudio(src);
 }
-// piano.addEventListener('mousemove', function (e) {
-//   if(e.which === 1) {
-//       bindAudio(e);
-//   }
-// });
+piano.addEventListener('mouseover', function (event) {
+  if(event.which == 1) {
+    playAudioWithButton(event);
+  }
+});
