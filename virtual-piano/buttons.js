@@ -11,6 +11,7 @@ notesButton.addEventListener('click', function() {
         my_piano_keys.forEach(key => key.classList.remove("letter"));
     }
 });
+
 lettersButton.addEventListener('click', function() {
     if(lettersButton.classList.contains('btn-active')) {
         return;
