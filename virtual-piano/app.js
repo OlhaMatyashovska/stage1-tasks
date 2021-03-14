@@ -1,48 +1,75 @@
-
-
-
 const piano = document.querySelector('.piano');
 const keys = document.querySelectorAll(".piano-key");
+// Пишемо функцію, яка створює аудіо
 function playAudio(src) {
    const audio = new Audio();
    audio.src = src;
+   // Грає аудіо кожного разу з самого початку
    audio.currentTime = 0;
    audio.play();
 }
-function bindAudio(e) {
-  if(e.target.classList.contains("piano-key")) {
-       console.log(e.code);
-       const note = e.target.dataset.note;
+
+function playAudioWithButton(event) {
+  if(event.target.classList.contains("piano-key")) {
+       const note = event.target.dataset.note;
        const src = `assets/audio/${note}.mp3`;
+       keys.forEach(key => {
+         if(key.classList.contains("piano-key-active")) {
+            key.classList.remove("piano-key-active");
+         }
+       });
+       event.target.classList.add("piano-key-active");
        playAudio(src);
   }
 }
-piano.addEventListener("click", bindAudio);
-piano.addEventListener('click', (event) => {
-  if(event.target.classList.contains('piano-key')) {
-    keys.forEach((el) => {
-      if(el.classList.contains('piano-key-active')) {
-        el.classList.remove('piano-key-active');
-      }
-    });
-    event.target.classList.add('piano-key-active');
+piano.addEventListener("click", (event) => playAudioWithButton(event));
+window.addEventListener('keydown',(event) => playAudioWithKeyboard(event));
+
+function playAudioWithKeyboard(event) {
+  const musicNote = event.code.slice(3).toLowerCase();
+  let note;
+  // не дуже подобається реалізація через switch --  як можна було б переписати???
+  switch(musicNote) {
+    case "t":
+      note="d♯";
+      break;
+    case "r":
+      note="c♯";
+      break;
+    case "u":
+      note="f♯";
+      break;
+    case "i":
+      note="g♯";
+      break;
+    case "o":
+      note="a♯";
+      break;
+    case "c":
+    case "d":
+    case "e":
+    case "f":
+    case "g":
+    case "a":
+    case "b":
+      note=musicNote;
+      break;
+    default:
+      return;
   }
-});
-window.addEventListener('keydown',keyBoardAudio);
-function keyBoardAudio(e) {
-  const musicNote = e.code.slice(3).toLowerCase();
-  const src = `assets/audio/${musicNote}.mp3`;
-  const key = document.querySelector(`div[data-note="${musicNote}"]`);
-  keys.forEach((el) => {
-    if(el.classList.contains('piano-key-active')) {
-      el.classList.remove('piano-key-active');
+  const src = `assets/audio/${note}.mp3`;
+  // event.target тут кнопки клавіатури
+  const keyPressed = document.querySelector(`div[data-note="${note}"]`);
+  keys.forEach(key => {
+    if(key.classList.contains("piano-key-active")) {
+       key.classList.remove("piano-key-active");
     }
   });
-  key.classList.add("piano-key-active");
+  keyPressed.classList.add("piano-key-active");
   playAudio(src);
 }
-piano.addEventListener('mousemove', function (e) {
-  if(e.which === 1) {
-      bindAudio(e);
-  }
-});
+// piano.addEventListener('mousemove', function (e) {
+//   if(e.which === 1) {
+//       bindAudio(e);
+//   }
+// });
