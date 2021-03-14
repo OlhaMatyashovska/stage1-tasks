@@ -1,55 +1,6 @@
-function activateFullscreen(element) {
-    if(element.requestFullscreen) {
-      element.requestFullscreen();       
-    }
-    else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();     
-    }
-    else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen(); 
-    }
-    else if(element.msRequestFullscreen) {
-      element.msRequestFullscreen();   
-    }
-  };
-function deactivateFullscreen() {
-    if(document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    }
-  };
-const fullscreenButton = document.querySelector(".fullscreen");
-function changeDisplay() {
-    if(fullscreenButton.classList.contains("openfullscreen")) {
-        fullscreenButton.classList.remove("openfullscreen");
-        activateFullscreen(document.documentElement);
-    } else {
-        fullscreenButton.classList.add("openfullscreen");
-        deactivateFullscreen(document.documentElement);
-    }
-}
-fullscreenButton.addEventListener('click', changeDisplay);
-const notesButton = document.querySelector(".btn-notes");
-const lettersButton = document.querySelector(".btn-letters");
-notesButton.addEventListener('click', function() {
-    if(notesButton.classList.contains('btn-active')) {
-        return;
-    } else {
-        notesButton.classList.add("btn-active");
-        lettersButton.classList.remove("btn-active");
-    }
-});
-lettersButton.addEventListener('click', function() {
-    if(lettersButton.classList.contains('btn-active')) {
-        return;
-    } else {
-        lettersButton.classList.add("btn-active");
-        notesButton.classList.remove("btn-active");
-    }
-});
+
+
+
 const piano = document.querySelector('.piano');
 const keys = document.querySelectorAll(".piano-key");
 function playAudio(src) {
