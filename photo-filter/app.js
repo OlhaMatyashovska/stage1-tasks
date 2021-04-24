@@ -1,16 +1,13 @@
-// Спробуємо зробити пункт__2
-// Почнемо просто з написання робочого коду
+
 const filters = document.querySelectorAll(".filters input");
 const outputs = document.querySelectorAll(".filters output");
 filters.forEach(input => input.addEventListener("input", applyFilters));
 
 function applyFilters() {
    const suffix = this.dataset.sizing || '';
-   // не дуже розумію як працює setProperty and Css variables
    document.documentElement.style.setProperty(`--${this.name}`, this.value+suffix);
    event.target.nextElementSibling.value = this.value;
 }
-// reset_3
 const resetButton = document.querySelector(".btn-reset");
 resetButton.addEventListener("click", resetFilters);
 function resetFilters() {
@@ -21,16 +18,6 @@ function resetFilters() {
    }
   filters.forEach(input => reset(input));
 }
-// треба розібратись чому не працює ця функція
-//   function reset(input) {
-//    if(!(input.name="saturate")) {
-//       input.value = 0;
-//       input.nextElementSibling.textContent = 0;
-//       }  else {
-//          input.value = 100;
-//          input.nextElementSibling.textContent = 100;
-//       }
-//   }
   function reset(input) {
      switch(input.name) {
         case "saturate":
@@ -61,7 +48,6 @@ window.addEventListener("DOMContentLoaded", function () {
       src = src + 'night/';
    }
    image.src = src + '01.jpg';
-   drawImage(image.src);
  });
 
 function switchPicture() {
@@ -85,7 +71,6 @@ function switchPicture() {
    }
    src = src + images_array[currentItem];
    image.src=src;
-   drawImage(src);
 }
 // load image implementation
 const inputFileButton = document.getElementById("btnInput");
@@ -96,26 +81,33 @@ function uploadImage(e) {
    const reader = new FileReader();
    reader.onload = () => {
       image.src = reader.result;
-      drawImage(reader.result);
+      //drawImage(reader.result);
    }
    reader.readAsDataURL(file);
 }
-// download implementation
+//download implementation
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext("2d");
 
-function drawImage(src) {
+function drawImage() {
   const img = new Image();  
   img.setAttribute('crossOrigin', 'anonymous');
-  img.src = src;
+  img.src = image.src;
   img.onload = function() {
     canvas.width = img.width;
     canvas.height = img.height;
+    const blur = document.querySelector('#blur').value;
+    const invert = document.querySelector('#invert').value;
+    const sepia = document.querySelector('#sepia').value;
+    const saturate = document.querySelector('#saturate').value;
+    const hue = document.querySelector('#hue').value;
+    ctx.filter= `blur(${blur}px) invert(${invert}) sepia(${sepia}) saturate(${saturate}) hue-rotate(${hue}deg)`;
     ctx.drawImage(img, 0, 0);
   }; 
 }
 const saveButton = document.querySelector(".btn-save");
 saveButton.addEventListener('click', function(e) {
+   drawImage();
    var link = document.createElement('a');
    link.download = 'download.png';
    link.href = canvas.toDataURL();
