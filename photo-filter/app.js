@@ -48,6 +48,8 @@ window.addEventListener("DOMContentLoaded", function () {
       src = src + 'night/';
    }
    image.src = src + '01.jpg';
+   //drawImage(image.src);
+
  });
 
 function switchPicture() {
@@ -71,6 +73,7 @@ function switchPicture() {
    }
    src = src + images_array[currentItem];
    image.src=src;
+   //drawImage(image.src);
 }
 // load image implementation
 const inputFileButton = document.getElementById("btnInput");
@@ -81,14 +84,30 @@ function uploadImage(e) {
    const reader = new FileReader();
    reader.onload = () => {
       image.src = reader.result;
-      //drawImage(reader.result);
+     // drawImage(reader.result);
    }
    reader.readAsDataURL(file);
 }
 //download implementation
+const filterControls = document.querySelectorAll("input[type=range]");
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext("2d");
-
+let ctxFilters;
+function applyFilter() {
+  ctxFilters = "";
+  filterControls.forEach(function (item, index) {
+    if (item.getAttribute("data-filter") === blur) item.value * 3;
+    ctxFilters +=
+      item.getAttribute("data-filter") +
+      "(" +
+      item.value +
+      item.getAttribute("data-sizing") +
+      ") ";
+  });
+  ctx.filter = ctxFilters;
+  //return ctxFilters;
+  //ctx.drawImage(img, 0, 0);
+}
 function drawImage() {
   const img = new Image();  
   img.setAttribute('crossOrigin', 'anonymous');
@@ -96,12 +115,7 @@ function drawImage() {
   img.onload = function() {
     canvas.width = img.width;
     canvas.height = img.height;
-    const blur = document.querySelector('#blur').value;
-    const invert = document.querySelector('#invert').value;
-    const sepia = document.querySelector('#sepia').value;
-    const saturate = document.querySelector('#saturate').value;
-    const hue = document.querySelector('#hue').value;
-    ctx.filter= `blur(${blur}px) invert(${invert}) sepia(${sepia}) saturate(${saturate}) hue-rotate(${hue}deg)`;
+    applyFilter();
     ctx.drawImage(img, 0, 0);
   }; 
 }
@@ -109,8 +123,12 @@ const saveButton = document.querySelector(".btn-save");
 saveButton.addEventListener('click', function(e) {
    drawImage();
    var link = document.createElement('a');
-   link.download = 'download.png';
-   link.href = canvas.toDataURL();
+   link.setAttribute("download", "matyashovska.png");
+   link.setAttribute("href", canvas.toDataURL());
    link.click();
    link.delete;
  });
+
+
+
+ 
